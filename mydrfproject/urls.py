@@ -17,10 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from accounts.views import verify_email
+from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('accounts.urls')),
+    path('img/', include('imageupload.urls')),
     path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('verify_email/<int:pk>/', verify_email, name='verify_email'),
+    path('docs', include_docs_urls(title="文檔", description="還不快做事"))
 ]

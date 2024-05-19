@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'accounts.apps.AccountsConfig',
     'django_rest_passwordreset',
+    'imageupload',
 ]
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -58,8 +59,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Replace with yo
 EMAIL_PORT = 587  # Replace with your email port
 EMAIL_USE_TLS = True  # Set to False if your email server doesn't use TLS
 EMAIL_HOST = 'smtp.gmail.com'  # Replace with your email host
-EMAIL_HOST_USER = 'your_email'  # Replace with your email username
-EMAIL_HOST_PASSWORD = 'your_app_password'  # Replace with your email password
+EMAIL_HOST_USER = 'a24961782@gmail.com'  # Replace with your email username
+EMAIL_HOST_PASSWORD = ''  # Replace with your email password
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -143,3 +144,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
+}
