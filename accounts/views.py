@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -12,6 +13,7 @@ from rest_framework.views import APIView
 from .utils import generate_otp, send_otp_email
 from django.shortcuts import redirect
 
+
 # REGISTER
 @api_view(['POST'])
 def register_user(request):
@@ -21,6 +23,7 @@ def register_user(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 # LOGIN
 @api_view(['POST'])
@@ -45,10 +48,13 @@ def user_login(request):
 
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
+
 # LOGOUT
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def user_logout(request):
+    print(request.user, request.auth)
+    print(type(request.user))
     if request.method == 'POST':
         try:
             # Delete the user's token to logout
@@ -56,6 +62,7 @@ def user_logout(request):
             return Response({'message': 'Successfully logged out.'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 # Change Password
 @api_view(['POST'])
@@ -73,6 +80,7 @@ def change_password(request):
             return Response({'error': 'Incorrect old password.'}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 # Login with Email OTP
 class LoginWithOTP(APIView):
     def post(self, request):
@@ -89,6 +97,7 @@ class LoginWithOTP(APIView):
         send_otp_email(email, otp)
 
         return Response({'message': 'OTP has been sent to your email.'}, status=status.HTTP_200_OK)
+
 
 class ValidateOTP(APIView):
     def post(self, request):
@@ -110,6 +119,7 @@ class ValidateOTP(APIView):
             return Response({'token': token.key}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Invalid OTP.'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 # verification view
 def verify_email(request, pk):
