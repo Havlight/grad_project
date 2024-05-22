@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from .serializers import UserSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from .models import CustomUser
@@ -16,6 +16,7 @@ from django.shortcuts import redirect
 
 # REGISTER
 @api_view(['POST'])
+@permission_classes([])
 def register_user(request):
     if request.method == 'POST':
         serializer = UserSerializer(data=request.data)
@@ -27,6 +28,7 @@ def register_user(request):
 
 # LOGIN
 @api_view(['POST'])
+@permission_classes([])
 def user_login(request):
     if request.method == 'POST':
         username = request.data.get('username')
@@ -53,8 +55,6 @@ def user_login(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def user_logout(request):
-    print(request.user, request.auth)
-    print(type(request.user))
     if request.method == 'POST':
         try:
             # Delete the user's token to logout
