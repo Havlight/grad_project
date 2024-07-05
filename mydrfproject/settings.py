@@ -42,7 +42,12 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'django_rest_passwordreset',
     'imageupload',
+    'drf_yasg',
 ]
+
+SWAGGER_SETTINGS = {
+   'DEFAULT_INFO': 'import.path.to.urls.api_info',
+}
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
@@ -52,7 +57,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAdminUser'
+        'rest_framework.permissions.AllowAny',
     ),
 
 }

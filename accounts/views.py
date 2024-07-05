@@ -12,11 +12,12 @@ from .serializers import ChangePasswordSerializer
 from rest_framework.views import APIView
 from .utils import generate_otp, send_otp_email
 from django.shortcuts import redirect
-
+from drf_yasg.utils import swagger_auto_schema
 
 # REGISTER
 @api_view(['POST'])
 @permission_classes([])
+@swagger_auto_schema(request_body=UserSerializer)
 def register_user(request):
     if request.method == 'POST':
         serializer = UserSerializer(data=request.data)
